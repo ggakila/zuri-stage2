@@ -6,7 +6,7 @@ export default function Home() {
 	return (
 		<main className="bg-white flex flex-col h-screen w-screen">
 			<Header />
-      <MovieCards />
+			<MovieCards />
 			<Footer />
 		</main>
 	);
