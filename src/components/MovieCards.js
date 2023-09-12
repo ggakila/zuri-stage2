@@ -18,7 +18,7 @@ export default function MovieCards() {
 	}, []);
 
 	return (
-		<div className="bg-gray-900 px-[15px] md:px-[30px] lg:px-[90px] mt-[15px] w-full items-center justify-between">
+		<div className="text-gray-900 px-[15px] md:px-[30px] lg:px-[90px] mt-[15px] w-full items-center justify-between">
 			<div className="flex justify-between">
 				<h1>Featured Movie</h1>
 				<div className="flex gap-[8px]">
