@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Footer() {
 	return (
-		<div className="flex flex-col items-center justify-center gap-[36px] text-gray-900 h-[300px]">
+		<div className="flex flex-col items-center justify-center gap-[36px] text-gray-900 my-10 h-[300px]">
 			<div className="flex gap-[48px] ">
 				<Image
 					className=""

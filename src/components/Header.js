@@ -10,7 +10,7 @@ export default function Header() {
 				src="/Poster.jpeg"
 				alt="Poster"
 				fill={true}
-				objectFit="cover"
+				style={{ objectFit: "cover" }}
 			/>
 			<div className="z-{-1} overlay absolute top-0 left-0 h-full w-full  bg-opacity-50 bg-black"></div>
 			{/* </div> */}
@@ -64,7 +64,7 @@ export default function Header() {
 					assassins' guild, and with a $14 million price tag on his head, he is
 					the target of hit men and women everywhere.
 				</p>
-				<WatchTrailerBtn/>
+				<WatchTrailerBtn />
 			</div>
 			<div className="absolute flex flex-col top-[42%] right-0 mr-[25px] gap-[8px] text-[12px] text-gray-400 leading-[14px]">
 				<div className="text-[12px] gap-[7px] text-gray-400 flex items-center">

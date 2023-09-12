@@ -4,8 +4,8 @@ import MovieCards from "@/components/MovieCards";
 
 export default function Home() {
 	return (
-		<main className="bg-white flex flex-col h-screen w-screen">
-			<Header />
+		<main className="bg-white  gap-5 h-screen w-screen overflow-y-auto">
+			<Header className=""/>
 			<MovieCards />
 			<Footer />
 		</main>
