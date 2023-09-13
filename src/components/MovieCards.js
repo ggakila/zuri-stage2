@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Card from "./Card";
 
 export default function MovieCards() {
@@ -65,11 +66,17 @@ export default function MovieCards() {
 	}, [movies]);
 
 	return (
-		<div className="text-gray-900 px-[60px] sm:px-[15px] md:px-[30px] lg:px-[90px] mt-[15px] w-full items-center justify-between">
-			<div className="flex justify-between">
-				<h1>Featured Movie</h1>
+		<div className="text-gray-900 px-[60px] sm:px-[15px] md:px-[30px] lg:px-[90px] mt-[70px] w-full items-center justify-between">
+			<div className="flex justify-between items-center mb-[44px] ">
+				<h1 className="text-[36px] font-bold leading-normal">Featured Movie</h1>
 				<div className="flex gap-[8px]">
-					<h1>See more</h1>
+					<h1 className="text-[18px] font-[400px] text-rose-700 leading-[24px]">See more</h1>
+					<Image 
+						src="/seemore.svg"
+						width={20}
+						height={20}
+						alt="seemore"
+					/>
 				</div>
 			</div>
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
