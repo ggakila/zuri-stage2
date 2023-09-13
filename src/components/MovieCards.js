@@ -4,7 +4,7 @@ import Card from "./Card";
 export default function MovieCards() {
 	const [movies, setMovies] = useState([]);
 	const [genres, setGenres] = useState({});
-	const [countries, setCountries] = useState({}); // State to store movie countries
+	const [countries, setCountries] = useState({}); 
 
 	const getMovies = () => {
 		fetch(
@@ -53,7 +53,7 @@ export default function MovieCards() {
 	}, []);
 
 	useEffect(() => {
-		// Fetch country for each movie in the topTenMovies list
+		
 		if (movies.length > 0) {
 			const topTenMovies = movies
 				.slice(0, 10)
