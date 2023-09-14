@@ -1,5 +1,6 @@
 import Image from "next/image";
 import WatchTrailerBtn from "./WatchTrailerBtn";
+import MovieSearch from "./MovieSearch";
 
 export default function Header() {
 	return (
@@ -15,18 +16,21 @@ export default function Header() {
 			<div className="z-{-1} overlay absolute top-0 left-0 h-full w-full  bg-opacity-50 bg-black"></div>
 			{/* </div> */}
 			<div className="navbar px-[15px] md:px-[30px] lg:px-[90px] mt-[15px] w-full flex items-center top-0 h-[80px] justify-between absolute ">
-				<div className="w-[186px] h-[50px] justify-start items-center gap-[24px] inline-flex">
-					<Image
-						className=""
-						src="/logo.png"
-						width={50}
-						height={50}
-					/>
-					<div className="text-white text-[24px] font-bold leading-normal">
+				<div className=" md:w-[186px] h-[50px] justify-start items-center gap-[24px] flex">
+					<div className="w-[50px] h-[50px] relative">
+						<Image
+							className=""
+							src="/logo.png"
+							fill={true}
+							style={{ objectFit: "contain" }}
+						/>
+					</div>
+					<div className="text-white hidden sm:block text-[24px] font-bold leading-normal">
 						MovieBox
 					</div>
 				</div>
-				<div className=" flex mx-auto  text-white w-1/3 bg-transparent border-[1px] text-[16px] rounded-md border-gray-100 ">
+				<MovieSearch/>
+				{/* <div className="search flex mx-auto  text-white w-1/3 bg-transparent border-[1px] text-[16px] rounded-md border-gray-100 ">
 					<input
 						className="bg-transparent text-[16px] border-none text-white text-base h-full py-3 w-full  pl-3 pr-10"
 						type="text"
@@ -38,10 +42,12 @@ export default function Header() {
 						height={16}
 						width={16}
 					/>
-				</div>
+				</div> */}
 				<div>
 					<div className="flex  justify-center items-center gap-8">
-						<div className="text-[16px] font-bold">Sign in</div>
+						<div className="hidden  sm:block text-[16px] font-bold">
+							Sign in
+						</div>
 						<div className="bg-rose-700 p-2 rounded-full">
 							<Image
 								className=""
@@ -54,12 +60,33 @@ export default function Header() {
 				</div>
 			</div>
 
-			<div className="description flex-col gap-[16px] tracking-wide  flex-start inline-flex w-[315px] absolute top-1/2 left-0 ml-[15px] md:ml-[30px] lg:ml-[90px] transform -translate-y-1/2">
-				<h1 className="desc_movie_title text-white font-semibold text-[48px] leading-[56px]">
+			<div className="description flex-col gap-[16px] tracking-wide  flex-start inline-flex w-[250px] lg:w-[315px] absolute top-1/2 left-0 ml-[15px] md:ml-[30px] lg:ml-[90px] transform -translate-y-1/2">
+				<h1 className="desc_movie_title text-white font-semibold text-[32px] md:text-[48px] leading-[56px]">
 					John Wick 3 : Parabellum
 				</h1>
-				<div className="">imdb rating tomatoes</div>
-				<p className="font-medium text-white text-[14px] leading-[18px]">
+				<div className="ratings flex gap-[25px] items-center">
+					<div className="flex gap-[8px]">
+						<Image
+							className="cardposter"
+							src="/imdbicon.png"
+							height={17}
+							width={35}
+							alt="hello"
+						/>
+						<p className="text-[12px] text-white font-[400px]">86.0/100</p>
+					</div>
+					<div className="flex gap-[10px]">
+						<Image
+							className="cardposter"
+							src="/tomatoicon.png"
+							height={17}
+							width={16}
+							alt="hello"
+						/>
+						<p className="text-[12px]  text-white font-[400px]">87%</p>
+					</div>
+				</div>
+				<p className="font-medium flex flex-wrap  text-white text-[12px] md:text-[14px] leading-[18px]">
 					John Wick is on the run after killing a member of the international
 					assassins' guild, and with a $14 million price tag on his head, he is
 					the target of hit men and women everywhere.

@@ -1,5 +1,7 @@
 import "@/styles/globals.css";
 import Head from "next/head";
+import {MovieProvider} from "../components/MovieContext";
+
 
 export default function App({ Component, pageProps }) {
 	return (
@@ -7,7 +9,9 @@ export default function App({ Component, pageProps }) {
 			<Head>
 				<title>MovieBox</title>
 			</Head>
+			<MovieProvider>
 			<Component {...pageProps} />
+			</MovieProvider>
 		</>
 	);
 }

@@ -39,7 +39,7 @@ export default function Footer() {
 				<p>Press Room</p>
 			</div>
 			<div className="flex font-normal  text-gray-500 text-[18px]">
-				&copy; 2021 MovieBox by Adriana Eka Prayudha
+				&copy; 2023 MovieBox by Haggai Gisore
 			</div>
 		</div>
 	);
