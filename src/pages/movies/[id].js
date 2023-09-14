@@ -1,35 +1,116 @@
 import { useRouter } from "next/router";
+import Link from "next/link";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMovieContext } from "../../components/MovieContext";
 
 export default function MovieDetails() {
 	const router = useRouter();
-	const { id } = router.query; // Get the movie ID from the URL query
-	const { state } = useMovieContext(); // Use useContext to access the context
-	const { movies } = state;
+	const { id } = router.query; 
+	const { state, getMovieDetails, getMovies, getGenres } = useMovieContext(); 
+	const { movies, genres } = state;
 
-	// Find the movie with the matching ID
+	const [cast, setCast] = useState([]);
+	const [writers, setWriters] = useState([]);
+	const [directors, setDirectors] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
+
+	
+
 	const movie = movies.find((movie) => movie.id === Number(id));
 
+	
+
 	useEffect(() => {
-		// Handle the case when the movie is not found
-		if (!movie) {
-			console.log("Error couldnot find the movie"); // Redirect to the main page or 404
+		getMovies();
+		getGenres();
+		getMovieDetails();
+		
+	}, []); 
+
+	
+	  useEffect(() => {
+			// If no movie ID is available, return
+			if (!id) return;
+
+			const movieId = Number(id);
+			const movie = movies.find((movie) => movie.id === movieId);
+
+			if (movie) {
+				// Fetch movie details if the movie is found
+				getMovieDetails(movieId)
+					.then((details) => {
+						console.log("Details:", details);
+						setIsLoading(false); // Mark loading as complete
+					})
+					.catch((error) => {
+						console.error("Error fetching movie details:", error);
+						setIsLoading(false); // Mark loading as complete in case of an error
+					});
+			}
+
+			// eslint-disable-next-line react-hooks/exhaustive-deps
+		}, [id, movies]); // Make sure to include 'id' and 'movies' in the dependencies array
+
+		useEffect(() => {
+			// Fetch credits data for the movie
+			if (!id) return; // Return if there's no movie ID
+			const movieId = Number(id);
+
+			fetch(
+				`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=aa3f7569ab1c9851a335d0a47e448185`
+			)
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error("Network response was not ok");
+					}
+					return response.json();
+				})
+				.then((data) => {
+					console.log("Fetched credits data:", data);
+					const castData = data.cast;
+					const crewData = data.crew;
+					console.log("Cast crew:", crewData);
+					const actingCast = castData
+						.filter((person) => person.known_for_department === "Acting")
+						.map((person) => person.original_name).join(", ");
+					
+					const writingCrew = crewData
+						.filter((person) => person.department === "Writing")
+						.map((person) => person.original_name).join(", ");
+
+						const directingCrew = crewData
+							.filter((person) => person.known_for_department === "Directing")
+							.map((person) => person.original_name)
+							.join(", ");
+
+					setCast(actingCast);
+					setWriters(writingCrew);
+					setDirectors(directingCrew);
+				})
+				.catch((error) => {
+					console.error("Error fetching credits data:", error);
+				});
+
+			// eslint-disable-next-line react-hooks/exhaustive-deps
+		}, [id]);
+
+		if (isLoading) {
+			return <div>Loading...</div>; // Render a loading indicator
 		}
-	}, [movie, router]);
 
-	if (!movie) {
-		return null; // Return loading indicator or custom error message
-	}
+		if (!movie) {
+			return <div>Movie not found.</div>; // Render a message if the movie is still not found
+		}
 
-	console.log(movie);
+	console.log()
+	
 	return (
 		<div className="text-gray-900 flex flex-row w-screen h-screen relative">
 			<div className="flex flex-1  flex-col justify-between items-center h-screen w-[250px] py-[50px]  border rounded-r-[45px]">
 				<div className="logo w-full  flex-none p-5">
 					<div className="w-full h-[50px] items-center gap-[24px] flex">
-						<div className="w-[70px] h-[50px] m-0 p-0 relative">
+						<div className="w-[70px] h-[50px] m-0 p-0 relative ">
 							<Image
 								className=""
 								src="/logo.png"
@@ -37,24 +118,29 @@ export default function MovieDetails() {
 								style={{ objectFit: "contain" }}
 							/>
 						</div>
-						<div className="text-gray-800 hidden sm:block text-[24px] font-bold leading-normal">
+						<div className="text-gray-800 hidden md:block text-[24px] font-bold leading-normal">
 							MovieBox
 						</div>
 					</div>
 				</div>
 				<div className=" nav w-full  flex flex-col flex-initial items-center">
-					<div className="text-[20px] text-gray-500 p-9 gap-[15px] font-semibold w-full flex justify-start pl-[52px]  items-center">
-						<div className="w-[20px] h-[20px] m-0 p-0 relative">
-							<Image
-								className=""
-								src="/series.png"
-								fill={true}
-								style={{ objectFit: "contain" }}
-							/>
+					<Link
+						href="/"
+						className="w-full"
+					>
+						<div className="text-[20px] text-gray-500 p-9 gap-[15px] font-semibold w-full flex justify-start pl-[35px] md:pl-[52px] items-center hover:bg-red-200">
+							<div className="w-[20px] h-[20px] m-0 p-0 relative">
+								<Image
+									className=""
+									src="/series.png"
+									fill={true}
+									style={{ objectFit: "contain" }}
+								/>
+							</div>
+							<p className="hidden md:block">Home</p>
 						</div>
-						<p>Home</p>
-					</div>
-					<div className="text-[20px] relative text-gray-500 bg-rose-100 p-9 font-semibold w-full gap-[15px]  flex justify-start pl-[52px]  items-center">
+					</Link>
+					<div className="text-[20px] relative text-gray-500 bg-rose-100 p-9 font-semibold w-full gap-[15px]  flex justify-start pl-[35px] md:pl-[52px]  items-center hover:bg-red-200">
 						<div className="w-[20px] h-[20px] m-0 p-0 relative">
 							<Image
 								className="text-gray-900"
@@ -63,10 +149,10 @@ export default function MovieDetails() {
 								style={{ objectFit: "contain" }}
 							/>
 						</div>
-						<p className="text-rose-600">Movies</p>
+						<p className="text-rose-600 hidden md:block">Movies</p>
 						<div className="flex absolute right-0 redthing h-full w-[3px] bg-red-600"></div>
 					</div>
-					<div className="text-[20px] gap-[15px] text-gray-500 p-9 font-semibold w-full  flex justify-start pl-[52px]  items-center">
+					<div className="text-[20px] gap-[15px] text-gray-500 p-9 font-semibold w-full  flex justify-start pl-[35px] md:pl-[52px]  items-center hover:bg-red-200">
 						<div className="w-[20px]  h-[20px] m-0 p-0 relative">
 							<Image
 								className=""
@@ -75,9 +161,9 @@ export default function MovieDetails() {
 								style={{ objectFit: "contain" }}
 							/>
 						</div>
-						<p>TV Series</p>
+						<p className="hidden md:block">TV Series</p>
 					</div>
-					<div className="text-[20px] text-gray-500 p-9 font-semibold w-full gap-[15px] flex justify-start pl-[52px]  items-center">
+					<div className="text-[20px] text-gray-500 p-9 font-semibold w-full gap-[15px] flex justify-start pl-[35px] md:pl-[52px]  items-center hover:bg-red-200">
 						<div className="w-[20px] h-[20px] m-0 p-0 relative">
 							<Image
 								className=""
@@ -86,23 +172,23 @@ export default function MovieDetails() {
 								style={{ objectFit: "contain" }}
 							/>
 						</div>
-						<p>Upcoming</p>
+						<p className="hidden md:block">Upcoming</p>
 					</div>
 				</div>
-				<div className="quiz w-full flex items-center justify-center">
-					<div className="quizes px-[17px] flex flex-col items-center justify-center  w-[170px] h-[210px] rounded-[20px] overflow-hidden bg-[rgba(248, 231, 235, 0.40)] gap-[9px] border-solid border-[1px] border-rose-700 bg-[rgba(248, 231, 235, 0.40">
+				<div className="quiz w-full md:flex items-center hidden  justify-center">
+					<div className="quizes px-[17px] flex flex-col bg-custom-rose items-center justify-center  w-[170px] h-[210px] rounded-[20px] overflow-hidden bg-[rgba(248, 231, 235, 0.40)] gap-[9px] border-solid border-[1px] border-rose-700 bg-[rgba(248, 231, 235, 0.40">
 						<h1 className="text-[15px] font-semibold text-gray-800 leading-normal">
 							Play movie quizes and earn free tickets
 						</h1>
 						<p className="text-gray-700 font-medium leading-normal">
 							50K peope are playing now
 						</p>
-						<button className="text-rose-700 font-medium mb-[22px]  bg-rose-200 px-[17px] py-[6px] rounded-full">
+						<button className="text-rose-700 font-medium mb-[22px]  bg-rose-200 hover:bg-rose-300 px-[17px] py-[6px] rounded-full">
 							start playing
 						</button>
 					</div>
 				</div>
-				<div className="text-[20px] gap-[15px] text-gray-500 p-9 font-semibold w-full flex justify-start pl-[52px]  items-center">
+				<div className="text-[20px] gap-[15px] text-gray-500 p-9 font-semibold w-full flex justify-start pl-[35px] md:pl-[52px]  items-center hover:bg-red-200">
 					<div className="w-[20px]  h-[20px] m-0 p-0 relative">
 						<Image
 							className=""
@@ -111,12 +197,12 @@ export default function MovieDetails() {
 							style={{ objectFit: "contain" }}
 						/>
 					</div>
-					<p>Logout</p>
+					<p className="hidden md:block">Logout</p>
 				</div>
 			</div>
-			<div className="flex flex-col w-full h-screen">
-				<div className="w-full h-1/2 p-[40px] flex items-center justify-center">
-					<div className="relative w-full h-full">
+			<div className="flex flex-col w-full md:w-full relative h-screen">
+				<div className="w-full h-1/2 p-[10px] md:p-[40px] flex items-center justify-center">
+					<div className=" relative w-full h-full">
 						<Image
 							src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`}
 							layout="fill"
@@ -124,7 +210,7 @@ export default function MovieDetails() {
 							alt="backdrop"
 							className="rounded-[20px]"
 						/>
-						<div className=" flex flex-col absolute top-1/3 right-1/2 items-center ">
+						<div className=" flex-col absolute top-1/3 right-1/2 hidden lg:flex items-center transform transition-transform hover:scale-105 ">
 							<Image
 								src="/play.svg"
 								width={110}
@@ -137,32 +223,35 @@ export default function MovieDetails() {
 					</div>
 				</div>
 
-				<div className="px-[40px] h-1/2">
+				<div className="px-[10px] md:px-[40px] h-1/2">
 					<div className="flex justify-between">
 						<div className="flex items-center ">
-							<h1 className="text-[23px] text-gray-700 font-semibold pr-4 leading-normal">
+							<h1 className="text-[16px] lg:text-[20px] text-gray-600 font-semibold pr-4 leading-normal" data-testid="movie-title">
 								{movie.title}
 							</h1>
-							<p className="text-[23px] text-gray-700 font-semibold pr-4 leading-normal">
+							<div className="w-[5px] h-[5px] mr-3 bg-gray-600 border rounded-full"></div>
+							<p className="text-[16px] lg:text-[20px] text-gray-600 font-semibold pr-4 leading-normal" data-testid="movie-release-date">
 								{movie.release_date}
 							</p>
-							<p className="text-[23px] text-gray-700 font-semibold pr-4 leading-normal">
+							<div className="w-[5px] h-[5px] mr-3 bg-gray-600 border rounded-full"></div>
+
+							<p className="text-[16px] lg:text-[20px] text-gray-600 font-semibold pr-4 leading-normal">
 								PG-13
 							</p>
-							<p className="text-[23px] text-gray-700 font-semibold pr-4 leading-normal">
-								{" "}
-								210 mins
+							<div className="w-[5px] h-[5px] mr-3 bg-gray-600 border rounded-full"></div>
+
+							<p className="text-[16px] lg:text-[20px] text-gray-600 font-semibold pr-4 leading-normal" data-testid="movie-runtime">
+								120 mins
 							</p>
 							<div className="flex gap-[11px] mx-4">
-								<div className="genre text-[15px] text-rose-700 py-[3px] px-[16px] border border-rose-400 rounded-[15px]">
-									genre
-								</div>
-								<div className="genre text-[15px] text-rose-700 py-[3px] px-[16px] border border-rose-400 rounded-[15px]">
-									genre
-								</div>
+								{movie.genre_ids.map((genreId) => (
+									<div className="border-[1px] text-[10px] lg:text-[15px] hidden lg:flex text-rose-700 font-medium px-[17px] py-[4px] items-center justify-center border-custom-rose rounded-[15px]">
+										{genres[genreId]}
+									</div>
+								))}
 							</div>
 						</div>
-						<div className="flex items-center gap-[9px]">
+						<div className="lg:flex flex-row items-center hidden gap-[9px]">
 							<div>
 								<Image
 									src="/star.png"
@@ -174,37 +263,29 @@ export default function MovieDetails() {
 								/>
 							</div>
 							<div className=" flex text-[20px] font-semibold text-gray-300">
-								8.5<p className="text-gray-600 ml-[4px]"> | 350k</p>
+								<p className="text-gray-500 ml-[4px]">8.5 | 350k</p>
 							</div>
 						</div>
 					</div>
-					<div className="flex gap-10">
-						<div className="decription w-2/3 flex flex-col">
-							<p className=" flex flex-wrap my-[30px] text-[20px] font-normal ">
-								After thirty years, Maverick is still pushing the envelope as a
-								top naval aviator, but must confront ghosts of his past when he
-								leads TOP GUN's elite graduates on a mission that demands the
-								ultimate sacrifice from those chosen to fly it.
+					<div className="flex flex-col lg:flex-row gap-10">
+						<div className="w-2/3 flex flex-col">
+							<p className="text-[15px] md:text-[20px] my-[30px] text-custom-gray" data-testid="movie-overview">
+								{movie.overview}
 							</p>
 							<div>
-								<p className="text-[20px] my-[30px]">
-									Director:{" "}
-									<span className="text-red-600">Joseph Kosinski</span>
+								<p className="text-[15px] md:text-[20px] text-rose-600 font-medium my-[25px]">
+									<span className="text-custom-gray ">Directors :</span>
+									{directors}
 								</p>
-								<p className="text-[20px] my-[30px]">
-									Writers :{" "}
-									<span className="text-red-600">
-										Jim Cash, Jack Epps Jr, Peter Craig
-									</span>
+								<p className="text-[15px] md:text-[20px] text-rose-600 font-medium my-[25px]">
+									<span className="text-custom-gray">Writers :</span> {writers}
 								</p>
-								<p className="text-[20px] my-[30px]">
-									Stars :{" "}
-									<span className="text-red-600">
-										Tom Cruise, Jennifer Connelly, Miles Teller
-									</span>
+
+								<p className="text-[15px] md:text-[20px] text-rose-600 font-medium my-[25px]">
+									<span className="text-custom-gray">Stars :</span> {cast}{" "}
 								</p>
 							</div>
-							<div className="flex items-center w-full border border-gray-200 rounded-[10px] relative  ">
+							<div className=" hidden lg:flex items-center w-full border border-gray-200 rounded-[10px] relative  ">
 								<div className="bg-red-600 border font-semibold  rounded-[10px] py-[13px] px-[20px] text-white text-[20px] ">
 									Top rated movie #77
 								</div>
@@ -223,28 +304,28 @@ export default function MovieDetails() {
 								/>
 							</div>
 						</div>
-						<div className="showtimes pt-[24px] sm:w-1/2 md:w-1/3 h-1/3 gap-[12px]  flex flex-col">
-							<div className="bg-red-700  w-full gap-[10px] flex items-center py-[12px] rounded-[10px] px-[80px] text-white font-medium text-[20px]">
+						<div className="showtimes pt-[12px] md:pt-[24px] w-full lg:w-1/3 h-1/3 gap-[12px]  flex flex-col">
+							<div className="bg-red-700 hover:bg-red-500  w-full gap-[10px] flex items-center py-[12px] rounded-[10px] px-[40px] md:px-[80px] text-white font-medium text-[14px] md:text-[20px]">
 								<Image
 									src="/showtime.png"
 									width={23}
 									height={23}
 									objectFit="cover"
 									alt="down caret"
-									/>
+								/>
 								<p>See Showtimes</p>
 							</div>
-							<div className="bg-red-100 flex w-full gap-[10px] items-center py-[12px] rounded-[10px] px-[80px] text-gray-600 font-medium text-[20px] border-[1px] border-red-600">
+							<div className="bg-red-100 hover:bg-red-200 flex w-full gap-[10px] items-center py-[12px] rounded-[10px] px-[40px] md:px-[80px] text-gray-600 font-medium text-[14px] md:text-[20px] border-[1px] border-red-600">
 								<Image
 									src="/bestshows.png"
 									width={23}
 									height={23}
 									objectFit="cover"
 									alt="down caret"
-									/>
+								/>
 								<p>More watch options</p>
 							</div>
-							<div className="w-full h-full items-center mt-[33px] relative"> 
+							<div className="w-full h-full items-center mt-[33px] relative">
 								<Image
 									src="/best.jpeg"
 									width={520}
@@ -255,13 +336,15 @@ export default function MovieDetails() {
 								/>
 								<div className="flex  items-center gap-[12px] px-[17px] py-[12px] bg-black bg-opacity-50 justify-center absolute bottom-0  w-full">
 									<Image
-									src="/bestshows.png"
-									width={23}
-									height={23}
-									objectFit="cover"
-									alt="down caret"
+										src="/bestshows.png"
+										width={23}
+										height={23}
+										objectFit="cover"
+										alt="down caret"
 									/>
-									<p className="text-[14px] text-gray-300">The Best Movies and Shows in September</p>
+									<p className="text-[14px] text-gray-300">
+										The Best Movies and Shows in September
+									</p>
 								</div>
 							</div>
 						</div>

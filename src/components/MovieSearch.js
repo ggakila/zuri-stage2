@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Select, { components } from "react-select";
 import { useMovieContext } from "./MovieContext";
 import Image from "next/image";
+import Link from "next/link";
 
 const searchIconPath = "/searchicon.svg";
 
@@ -41,30 +42,37 @@ export default function MovieSearch() {
       payload: selected ? selected.label : "",
     });
   };
-
-  const Option = (props) => (
-		<div className="flex items-center gap-[5px] ">
-			{props.data.poster_path && (
-				<img
-					src={`https://image.tmdb.org/t/p/w185${props.data.poster_path}`}
-					alt={props.data.label}
-					className="w-20 h-32 mr-2"
-				/>
-			)}
-			<div className="flex flex-col">
-				<components.Option
-					{...props}
-					className="text-lg"
-				/>
-				{props.data.release_date && (
-					<p className="text-gray-400 ml-[12px]">{props.data.release_date}</p>
+  
+ 
+	const Option = (props) => (
+		<Link
+			href={`/movies/${props.data.value}`}
+			as={`/movies/${props.data.value}`}
+		>
+			<div className="flex items-center gap-[5px]">
+				{props.data.poster_path && (
+					<img
+						src={`https://image.tmdb.org/t/p/w185${props.data.poster_path}`}
+						alt={props.data.label}
+						className="w-20 h-32 mr-2"
+					/>
 				)}
+				<div className="flex flex-col">
+					<components.Option
+						{...props}
+						className="text-lg"
+					/>
+					{props.data.release_date && (
+						<p className="text-gray-400 ml-[12px]">{props.data.release_date}</p>
+					)}
+				</div>
 			</div>
-		</div>
+		</Link>
 	);
 
+
   return (
-		<div className="search w-1/3 bg-transparent">
+		<div className="search w-1/3 bg-transparent hidden md:block">
 			<Select
 				className="search bg-transparent"
 				classNamePrefix="select"

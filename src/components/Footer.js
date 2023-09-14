@@ -2,8 +2,8 @@ import Image from "next/image";
 
 export default function Footer() {
 	return (
-		<div className="flex flex-col items-center justify-center gap-[36px] text-gray-900 my-10 h-[300px]">
-			<div className="flex gap-[48px] ">
+		<div className="flex flex-col items-center justify-center gap-[20px] md:gap-[36px] text-gray-900 my-10 h-[300px]">
+			<div className="flex gap-[24px] md:gap-[48px] ">
 				<Image
 					className=""
 					src="/facebook.svg"
@@ -33,12 +33,12 @@ export default function Footer() {
 					alt="facebook-icon"
 				/>
 			</div>
-			<div className="flex gap-[48px] text-gray-900 text-[18px] font-bold leading-normal">
+			<div className="flex flex-col md:flex-row gap-[20px] md:gap-[48px] text-gray-900 text-[16px] md:text-[18px] font-bold leading-normal">
 				<p>Conditions of Use</p>
 				<p>Privacy & Policy</p>
 				<p>Press Room</p>
 			</div>
-			<div className="flex font-normal  text-gray-500 text-[18px]">
+			<div className="flex font-normal  text-gray-500 text-[14px] md:text-[18px]">
 				&copy; 2023 MovieBox by Haggai Gisore
 			</div>
 		</div>

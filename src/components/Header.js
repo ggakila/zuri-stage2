@@ -5,7 +5,6 @@ import MovieSearch from "./MovieSearch";
 export default function Header() {
 	return (
 		<div className="flex justify-center h-5/6 relative ">
-			{/* <div className="w-full top-0 left-0 relative"> */}
 			<Image
 				className="absolute w-full"
 				src="/Poster.jpeg"
@@ -14,7 +13,6 @@ export default function Header() {
 				style={{ objectFit: "cover" }}
 			/>
 			<div className="z-{-1} overlay absolute top-0 left-0 h-full w-full  bg-opacity-50 bg-black"></div>
-			{/* </div> */}
 			<div className="navbar px-[15px] md:px-[30px] lg:px-[90px] mt-[15px] w-full flex items-center top-0 h-[80px] justify-between absolute ">
 				<div className=" md:w-[186px] h-[50px] justify-start items-center gap-[24px] flex">
 					<div className="w-[50px] h-[50px] relative">
@@ -29,20 +27,7 @@ export default function Header() {
 						MovieBox
 					</div>
 				</div>
-				<MovieSearch/>
-				{/* <div className="search flex mx-auto  text-white w-1/3 bg-transparent border-[1px] text-[16px] rounded-md border-gray-100 ">
-					<input
-						className="bg-transparent text-[16px] border-none text-white text-base h-full py-3 w-full  pl-3 pr-10"
-						type="text"
-						placeholder="What do you want to watch?"
-					/>
-					<Image
-						className="mx-3"
-						src="/search-icon.svg"
-						height={16}
-						width={16}
-					/>
-				</div> */}
+				<MovieSearch className="" />
 				<div>
 					<div className="flex  justify-center items-center gap-8">
 						<div className="hidden  sm:block text-[16px] font-bold">
@@ -73,7 +58,7 @@ export default function Header() {
 							width={35}
 							alt="hello"
 						/>
-						<p className="text-[12px] text-white font-[400px]">86.0/100</p>
+						<p className="text-[12px] text-white font-[400px]">95.0/100</p>
 					</div>
 					<div className="flex gap-[10px]">
 						<Image
@@ -83,10 +68,10 @@ export default function Header() {
 							width={16}
 							alt="hello"
 						/>
-						<p className="text-[12px]  text-white font-[400px]">87%</p>
+						<p className="text-[12px]  text-white font-[400px]">99%</p>
 					</div>
 				</div>
-				<p className="font-medium flex flex-wrap  text-white text-[12px] md:text-[14px] leading-[18px]">
+				<p className="font-medium flex flex-wrap text-white text-[12px] md:text-[14px] leading-[18px]">
 					John Wick is on the run after killing a member of the international
 					assassins' guild, and with a $14 million price tag on his head, he is
 					the target of hit men and women everywhere.
