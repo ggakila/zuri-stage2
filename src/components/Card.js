@@ -10,13 +10,13 @@ export default function Card({ movie, genres, country }) {
 			{/* Use movie object to access movie data */}
 			<Image
 				className="cardposter"
-				src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+				src={`https://image.tmdb.org/t/p/w500/${ movie.poster_path}`}
 				height={350}
 				width={250}
 				alt="hello"
 			/>
 			<div className=" flex  flex-col gap-[12px]">
-				<p className="text-gray-300 text-[12px] font-bold">{country} {movie.release_date}</p>
+				<p className="text-gray-300 text-[12px] font-bold">{`USA, ${movie.release_date}`}</p>
 				<h1 className = " text-[18px] text-gray-900 font-bold leading-normal">{movie.title}</h1>
 				<div className="ratings flex justify-between">
 					<div className="flex gap-[8px]">

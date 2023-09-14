@@ -44,7 +44,7 @@ export default function MovieCards() {
 					/>
 				</div>
 			</div>
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+			<div className="flex px=[90px] w-full flex-wrap  justify-center mx-auto gap-y-[40px] gap-x-[100px] ">
 				{movies.length > 0 &&
 					movies.slice(0, 10).map((movie) => (
 						<Link key={movie.id} href="/movies/[id]" as={`/movies/${movie.id}`}>
