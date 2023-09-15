@@ -197,7 +197,7 @@ export default function MovieDetails() {
 				</div>
 			</div>
 			<div className="flex flex-col w-full md:w-full relative h-screen">
-				<div className="w-full h-1/2 p-[10px] md:p-[40px] flex items-center justify-center">
+				<div className="w-full h-1/3 md:h-1/2 p-[10px] md:p-[40px] flex items-center justify-center">
 					<div className=" relative w-full h-full">
 						<Image
 							src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
@@ -219,7 +219,7 @@ export default function MovieDetails() {
 					</div>
 				</div>
 
-				<div className="px-[10px] md:px-[40px] h-1/2">
+				<div className="px-[10px] md:px-[40px] w-full h-1/2">
 					<div className="flex justify-between">
 						<div className="flex items-center ">
 							<h1 className="text-[16px] lg:text-[20px] text-gray-600 font-semibold pr-4 leading-normal" data-testid="movie-title">
@@ -264,7 +264,7 @@ export default function MovieDetails() {
 						</div>
 					</div>
 					<div className="flex flex-col lg:flex-row gap-10">
-						<div className="w-2/3 flex flex-col">
+						<div className="lg:w-2/3 flex flex-col">
 							<p className="text-[15px] md:text-[20px] my-[30px] text-custom-gray" data-testid="movie-overview">
 								{movie.overview}
 							</p>
