@@ -7,7 +7,7 @@ import { useMovieContext } from "../../components/MovieContext";
 export default function MovieDetails() {
 	const router = useRouter();
 	const { id } = router.query; 
-	const { state, getMovieDetails, getMovies, getGenres } = useMovieContext(); 
+	const { state, getMovies, getGenres } = useMovieContext(); 
 	const { movies, genres } = state;
 
 	const [cast, setCast] = useState([]);
@@ -24,38 +24,11 @@ export default function MovieDetails() {
 	useEffect(() => {
 		getMovies();
 		getGenres();
-		getMovieDetails();
-		
+	
 	}, []); 
 
 	
-	  useEffect(() => {
-			
-			if (!id) return;
-
-			const movieId = Number(id);
-			const movie = movies.find((movie) => movie.id === movieId);
-
-			if (movie) {
-				
-				getMovieDetails(movieId)
-					.then((details) => {
-						console.log("Details:", details);
-						setIsLoading(false); 
-					})
-					.catch((error) => {
-						console.error("Error fetching movie details:", error);
-						setIsLoading(false); 
-					});
-			} else {
-				
-				router.push("/_error");
-			}
-
-			
-		}, [id, movies]); 
-
-		useEffect(() => {
+	useEffect(() => {
 			
 			if (!id) return; 
 			const movieId = Number(id);
@@ -90,6 +63,10 @@ export default function MovieDetails() {
 					setCast(actingCast);
 					setWriters(writingCrew);
 					setDirectors(directingCrew);
+					setTimeout(() => {
+						setIsLoading(false);
+					}, 1000)
+					
 				})
 				.catch((error) => {
 					console.error("Error fetching credits data:", error);
@@ -100,7 +77,21 @@ export default function MovieDetails() {
 
 		
 		if (isLoading) {
-			return <div>Loading...</div>; 
+			return (
+				<div className="text-gray-600 text-[30px] flex items-center justify-center h-screen w-screen">
+					<div className="">
+
+					<Image
+						src="/loading.gif"
+						width={100}
+						height={80}
+						alt="loading"
+						style={{ objectFit: "contain" }}
+						/>
+					</div>
+					<p className = "text-gray-900 text-[20px]">Loading...</p>
+				</div>
+			); 
 		}
 
 		if (!movie) {
