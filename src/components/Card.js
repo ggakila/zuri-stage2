@@ -20,10 +20,14 @@ export default function Card({ movie, genres, country }) {
 				alt="hello"
 			/>
 			<div className=" flex  flex-col gap-[12px]">
+				<div className="flex gap-2">
+
+				<p className="text-gray-300 text-[12px] font-bold">USA, </p>
 				<p
 					className="text-gray-300 text-[12px] font-bold"
 					data-testid="movie-release-date"
-				>{`USA, ${movie.release_date}`}</p>
+					>{movie.release_date}</p>
+				</div>
 				<h1
 					className="text-[18px] text-gray-900 font-bold leading-normal"
 					data-testid="movie-title"
