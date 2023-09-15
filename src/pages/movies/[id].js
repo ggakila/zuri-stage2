@@ -198,7 +198,7 @@ export default function MovieDetails() {
 			</div>
 			<div className="flex flex-col w-full md:w-full relative h-screen">
 				<div className="w-full h-1/3 md:h-1/2 p-[10px] md:p-[40px] flex items-center justify-center">
-					<div className=" relative w-full h-full">
+					<div className=" relative h-full w-full">
 						<Image
 							src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
 							layout="fill"

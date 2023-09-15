@@ -31,7 +31,7 @@ export default function Card({ movie, genres, country }) {
 					{movie.title}
 				</h1>
 				<div className="ratings flex justify-between">
-					<div className="flex gap-[8px]">
+					<div className="flex gap-[8px] items-center">
 						<Image
 							className="cardposter"
 							src="/imdbicon.png"

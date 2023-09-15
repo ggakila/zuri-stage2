@@ -50,7 +50,7 @@ export default function Header() {
 					John Wick 3 : Parabellum
 				</h1>
 				<div className="ratings flex gap-[25px] items-center">
-					<div className="flex gap-[8px]">
+					<div className="flex gap-[8px] items-center">
 						<Image
 							className="cardposter"
 							src="/imdbicon.png"
@@ -60,7 +60,7 @@ export default function Header() {
 						/>
 						<p className="text-[12px] text-white font-[400px]">95.0/100</p>
 					</div>
-					<div className="flex gap-[10px]">
+					<div className="flex gap-[10px] items-center">
 						<Image
 							className="cardposter"
 							src="/tomatoicon.png"
