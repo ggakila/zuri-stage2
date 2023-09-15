@@ -123,7 +123,7 @@ export const MovieProvider = ({ children }) => {
 			const data = await response.json();
 
 			console.log("Movie Details API Response:", data);
-			// Extract relevant information
+			
 			const duration = data.runtime;
 			const description = data.overview;
 			const directors = data.credits.crew.filter(

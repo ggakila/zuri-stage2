@@ -30,31 +30,34 @@ export default function MovieDetails() {
 
 	
 	  useEffect(() => {
-			// If no movie ID is available, return
+			
 			if (!id) return;
 
 			const movieId = Number(id);
 			const movie = movies.find((movie) => movie.id === movieId);
 
 			if (movie) {
-				// Fetch movie details if the movie is found
+				
 				getMovieDetails(movieId)
 					.then((details) => {
 						console.log("Details:", details);
-						setIsLoading(false); // Mark loading as complete
+						setIsLoading(false); 
 					})
 					.catch((error) => {
 						console.error("Error fetching movie details:", error);
-						setIsLoading(false); // Mark loading as complete in case of an error
+						setIsLoading(false); 
 					});
+			} else {
+				
+				router.push("/_error");
 			}
 
-			// eslint-disable-next-line react-hooks/exhaustive-deps
-		}, [id, movies]); // Make sure to include 'id' and 'movies' in the dependencies array
+			
+		}, [id, movies]); 
 
 		useEffect(() => {
-			// Fetch credits data for the movie
-			if (!id) return; // Return if there's no movie ID
+			
+			if (!id) return; 
 			const movieId = Number(id);
 
 			fetch(
@@ -92,15 +95,17 @@ export default function MovieDetails() {
 					console.error("Error fetching credits data:", error);
 				});
 
-			// eslint-disable-next-line react-hooks/exhaustive-deps
+			
 		}, [id]);
 
+		
 		if (isLoading) {
-			return <div>Loading...</div>; // Render a loading indicator
+			return <div>Loading...</div>; 
 		}
 
 		if (!movie) {
-			return <div>Movie not found.</div>; // Render a message if the movie is still not found
+			router.push("/_error");
+			return null; 
 		}
 
 	console.log()

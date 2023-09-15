@@ -10,7 +10,7 @@ export default function Card({ movie, genres, country }) {
 			data-testid="movie-card"
 			className="card w-[250px] flex flex-col py-[20px] gap-[12px] transform transition-transform hover:scale-105"
 		>
-			{/* Use movie object to access movie data */}
+			
 			<Image
 				className="cardposter"
 				data-testid="movie-poster"

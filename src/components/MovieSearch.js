@@ -18,7 +18,7 @@ export default function MovieSearch() {
     const searchOptions = searchResults.map((result) => ({
       value: result.id,
       label: result.title,
-      release_date: result.release_date, // Include release date
+      release_date: result.release_date, 
       poster_path: result.poster_path,
     }));
     setOptions(searchOptions);
