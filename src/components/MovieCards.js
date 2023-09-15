@@ -45,7 +45,7 @@ export default function MovieCards() {
 				</div>
 			</div>
 			<div className="flex px=[90px] w-full flex-wrap  justify-center mx-auto gap-y-[40px] gap-x-[100px] ">
-				{movies.length > 0 &&
+				{movies &&
 					movies.slice(0, 10).map((movie) => (
 						<Link key={movie.id} href="/movies/[id]" as={`/movies/${movie.id}`}>
 						<Card

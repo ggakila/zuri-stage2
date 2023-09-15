@@ -17,7 +17,7 @@ const SET_GENRES = "SET_GENRES";
 const SET_COUNTRIES = "SET_COUNTRIES";
 const SET_SEARCH_TERM = "SET_SEARCH_TERM";
 const SET_SEARCH_RESULTS = "SET_SEARCH_RESULTS";
-const SET_MOVIE_DETAILS = "SET_MOVIE_DETAILS";
+
 
 const movieReducer = (state, action) => {
 	switch (action.type) {
@@ -54,7 +54,7 @@ export const MovieProvider = ({ children }) => {
 		
 		try {
 			const response = await fetch(
-				"https://api.themoviedb.org/3/discover/movie?api_key=aa3f7569ab1c9851a335d0a47e448185"
+				"https://api.themoviedb.org/3/movie/top_rated?api_key=aa3f7569ab1c9851a335d0a47e448185&language=en-US&page=1"
 			);
 			const data = await response.json();
 			return data.results;
@@ -115,35 +115,35 @@ export const MovieProvider = ({ children }) => {
 		}
 	};
 
-	const getMovieDetails = async (movieId) => {
-		try {
-			const response = await fetch(
-				`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=aa3f7569ab1c9851a335d0a47e448185`
-			);
-			const data = await response.json();
+	// const getMovieDetails = async (movieId) => {
+	// 	try {
+	// 		const response = await fetch(
+	// 			`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=aa3f7569ab1c9851a335d0a47e448185`
+	// 		);
+	// 		const data = await response.json();
 
-			console.log("Movie Details API Response:", data);
+	// 		console.log("Movie Details API Response:", data);
 			
-			const duration = data.runtime;
-			const description = data.overview;
-			const directors = data.credits.crew.filter(
-				(person) => person.job === "Director"
-			);
-			const writers = data.credits.crew.filter(
-				(person) => person.department === "Writing"
-			);
-			const stars = data.credits.cast;
-			const genres = data.genres;
+	// 		// const duration = data.runtime;
+	// 		// const description = data.overview;
+	// 		// const directors = data.credits.crew.filter(
+	// 		// 	(person) => person.job === "Director"
+	// 		// );
+	// 		// const writers = data.credits.crew.filter(
+	// 		// 	(person) => person.department === "Writing"
+	// 		// );
+	// 		// const stars = data.credits.cast;
+	// 		// const genres = data.genres;
 
-			return { duration, description, directors, writers, stars, genres };
-		} catch (error) {
-			console.error("Error fetching movie details:", error);
-			return {};
-		}
-	};
+	// 		return { duration, description, directors, writers, stars, genres };
+	// 	} catch (error) {
+	// 		console.error("Error fetching movie details:", error);
+	// 		return {};
+	// 	}
+	// };
 
 	return (
-		<MovieContext.Provider value={{ state, dispatch, getMovies, getGenres, getCountry, searchMovies, getMovieDetails }}>
+		<MovieContext.Provider value={{ state, dispatch, getMovies, getGenres, getCountry, searchMovies}}>
 			{children}
 		</MovieContext.Provider>
 	);
