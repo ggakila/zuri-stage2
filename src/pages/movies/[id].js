@@ -200,7 +200,7 @@ export default function MovieDetails() {
 				<div className="w-full h-1/2 p-[10px] md:p-[40px] flex items-center justify-center">
 					<div className=" relative w-full h-full">
 						<Image
-							src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`}
+							src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
 							layout="fill"
 							objectFit="cover"
 							alt="backdrop"

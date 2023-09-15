@@ -14,7 +14,7 @@ export default function Card({ movie, genres, country }) {
 			<Image
 				className="cardposter"
 				data-testid="movie-poster"
-				src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+				src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
 				height={350}
 				width={250}
 				alt="hello"
