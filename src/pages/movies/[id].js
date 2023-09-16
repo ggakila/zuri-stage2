@@ -7,7 +7,7 @@ import { useMovieContext } from "../../components/MovieContext";
 export default function MovieDetails() {
 	const router = useRouter();
 	const { id } = router.query; 
-	const { state, getMovies, getGenres } = useMovieContext(); 
+	const { state, getMovies, getGenres, } = useMovieContext(); 
 	const { movies, genres } = state;
 
 	const [cast, setCast] = useState([]);
@@ -20,44 +20,45 @@ export default function MovieDetails() {
 	const movie = movies.find((movie) => movie.id === Number(id));
 
 	
-
+	
+	
 	useEffect(() => {
 		getMovies();
 		getGenres();
-	
+		
 	}, []); 
-
+	
 	
 	useEffect(() => {
-			
-			if (!id) return; 
-			const movieId = Number(id);
-
-			fetch(
-				`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=aa3f7569ab1c9851a335d0a47e448185`
+		
+		if (!id) return; 
+		const movieId = Number(id);
+		
+		fetch(
+			`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=aa3f7569ab1c9851a335d0a47e448185`
 			)
-				.then((response) => {
-					if (!response.ok) {
-						throw new Error("Network response was not ok");
-					}
-					return response.json();
-				})
-				.then((data) => {
-					console.log("Fetched credits data:", data);
-					const castData = data.cast;
-					const crewData = data.crew;
-					console.log("Cast crew:", crewData);
-					const actingCast = castData
-						.filter((person) => person.known_for_department === "Acting")
-						.map((person) => person.original_name).join(", ");
-					
-					const writingCrew = crewData
-						.filter((person) => person.department === "Writing")
-						.map((person) => person.original_name).join(", ");
-
-						const directingCrew = crewData
-							.filter((person) => person.known_for_department === "Directing")
-							.map((person) => person.original_name)
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error("Network response was not ok");
+				}
+				return response.json();
+			})
+			.then((data) => {
+				console.log("Fetched credits data:", data);
+				const castData = data.cast;
+				const crewData = data.crew;
+				console.log("Cast crew:", crewData);
+				const actingCast = castData
+				.filter((person) => person.known_for_department === "Acting")
+				.map((person) => person.original_name).join(", ");
+				
+				const writingCrew = crewData
+				.filter((person) => person.department === "Writing")
+				.map((person) => person.original_name).join(", ");
+				
+				const directingCrew = crewData
+				.filter((person) => person.known_for_department === "Directing")
+				.map((person) => person.original_name)
 							.join(", ");
 
 					setCast(actingCast);
@@ -71,14 +72,17 @@ export default function MovieDetails() {
 				.catch((error) => {
 					console.error("Error fetching credits data:", error);
 				});
+				
+				
+			}, [id]);
 
 			
-		}, [id]);
 
-		
-		if (isLoading) {
-			return (
-				<div className="text-gray-600 text-[30px] flex items-center justify-center h-screen w-screen">
+			
+			
+			if (isLoading) {
+				return (
+					<div className="text-gray-600 text-[30px] flex items-center justify-center h-screen w-screen">
 					<div className="">
 
 					<Image
@@ -98,11 +102,12 @@ export default function MovieDetails() {
 			router.push("/_error");
 			return null; 
 		}
-
-	console.log()
-	
-	return (
-		<div className="text-gray-900 flex flex-row w-screen h-screen relative">
+		
+		console.log()
+		
+		const releasedate = new Date(movie.release_date).toUTCString();
+		return (
+			<div className="text-gray-900 flex flex-row w-screen h-screen relative">
 			<div className="flex flex-1  flex-col justify-between items-center h-screen w-[250px] py-[50px]  border rounded-r-[45px]">
 				<div className="logo w-full  flex-none p-5">
 					<div className="w-full h-[50px] items-center gap-[24px] flex">
@@ -227,7 +232,7 @@ export default function MovieDetails() {
 							</h1>
 							<div className="w-[5px] h-[5px] mr-3 bg-gray-600 border rounded-full"></div>
 							<p className="text-[16px] lg:text-[20px] text-gray-600 font-semibold pr-4 leading-normal" data-testid="movie-release-date">
-								{movie.release_date}
+								{releasedate}
 							</p>
 							<div className="w-[5px] h-[5px] mr-3 bg-gray-600 border rounded-full"></div>
 
@@ -237,7 +242,7 @@ export default function MovieDetails() {
 							<div className="w-[5px] h-[5px] mr-3 bg-gray-600 border rounded-full"></div>
 
 							<p className="text-[16px] lg:text-[20px] text-gray-600 font-semibold pr-4 leading-normal" data-testid="movie-runtime">
-								120 mins
+								{movie.runtime}
 							</p>
 							<div className="flex gap-[11px] mx-4">
 								{movie.genre_ids.map((genreId) => (

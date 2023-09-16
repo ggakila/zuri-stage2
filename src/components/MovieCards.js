@@ -17,10 +17,7 @@ export default function MovieCards() {
 
 	useEffect(() => {
 		if (movies.length > 0) {
-			const topTenMovies = movies
-				.slice(0, 10)
-				.filter((movie) => movie.popularity > 0);
-			topTenMovies.forEach(async (movie) => {
+			movies.forEach(async (movie) => {
 				const country = await getCountry(movie.id);
 				dispatch({ type: "SET_COUNTRIES", payload: { [movie.id]: country } });
 			});

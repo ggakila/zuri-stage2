@@ -54,41 +54,42 @@ export const MovieProvider = ({ children }) => {
 		
 		try {
 			const response = await fetch(
-				"https://api.themoviedb.org/3/movie/top_rated?api_key=aa3f7569ab1c9851a335d0a47e448185&language=en-US&page=1"
-			);
-			const data = await response.json();
+				"https://api.themoviedb.org/3/movie/top_rated?api_key=aa3f7569ab1c9851a335d0a47e448185&include_video=false&with_runtime&language=en-US&page=1"
+				);
+				const data = await response.json();
+				console.log("raniiii",data.results);
 			return data.results;
 		} catch (error) {
 			console.error("Error fetching movies:", error);
 			return [];
 		}
 	};
-
+	
 	const getGenres = async () => {
 		
 		try {
 			const response = await fetch(
 				"https://api.themoviedb.org/3/genre/movie/list?api_key=aa3f7569ab1c9851a335d0a47e448185"
-			);
-			const data = await response.json();
-			const genreMap = {};
-			data.genres.forEach((genre) => {
-				genreMap[genre.id] = genre.name;
-			});
-			return genreMap;
-		} catch (error) {
+				);
+				const data = await response.json();
+				const genreMap = {};
+				data.genres.forEach((genre) => {
+					genreMap[genre.id] = genre.name;
+				});
+				return genreMap;
+			} catch (error) {
 			console.error("Error fetching genres:", error);
 			return {};
 		}
 	};
-
+	
 	const getCountry = async (movieId) => {
-
+		
 		try {
 			const response = await fetch(
 				`https://api.themoviedb.org/3/movie/${movieId}?api_key=aa3f7569ab1c9851a335d0a47e448185`
-			);
-			const data = await response.json();
+				);
+				const data = await response.json();
 			if (data.production_countries && data.production_countries.length > 0) {
 				const countryName = data.production_countries[0].name;
 				return countryName;
@@ -98,7 +99,7 @@ export const MovieProvider = ({ children }) => {
 			console.error("Error fetching country:", error);
 			return null;
 		} 
-			
+		
 	};
 
 	const searchMovies = async (searchTerm) => {
@@ -106,14 +107,16 @@ export const MovieProvider = ({ children }) => {
 		try {
 			const response = await fetch(
 				`https://api.themoviedb.org/3/search/movie?api_key=aa3f7569ab1c9851a335d0a47e448185&query=${searchTerm}`
-			);
-			const data = await response.json();
-			dispatch({ type: SET_SEARCH_RESULTS, payload: data.results });
-		} catch (error) {
-			console.error("Error fetching search results:", error);
-			dispatch({ type: SET_SEARCH_RESULTS, payload: [] }); 
-		}
-	};
+				);
+				const data = await response.json();
+				dispatch({ type: SET_SEARCH_RESULTS, payload: data.results });
+			} catch (error) {
+				console.error("Error fetching search results:", error);
+				dispatch({ type: SET_SEARCH_RESULTS, payload: [] }); 
+			}
+		};
+		
+		
 
 	// const getMovieDetails = async (movieId) => {
 	// 	try {

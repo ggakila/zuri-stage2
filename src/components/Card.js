@@ -4,6 +4,8 @@ export default function Card({ movie, genres, country }) {
 	const movieGenre = movie.genre_ids
 		.map((genreId) => genres[genreId])
 		.join(", ");
+	
+const releasedate = new Date(movie.release_date).toUTCString();
 
 	return (
 		<div
@@ -26,7 +28,7 @@ export default function Card({ movie, genres, country }) {
 				<p
 					className="text-gray-300 text-[12px] font-bold"
 					data-testid="movie-release-date"
-					>{movie.release_date}</p>
+					>{releasedate}</p>
 				</div>
 				<h1
 					className="text-[18px] text-gray-900 font-bold leading-normal"
